@@ -48,11 +48,16 @@ const checkGameEnded = () => {
         }
 
         if (flag) {
-          winner.value = `player ${turn.value} wins`
+          winner.value = `${turn.value === 1 ? 'Player' : 'Bot'} wins`
         }
       }
     }
   }
+}
+
+const checkGameTie = () => {
+   if (playGround.value[6].filter(v => v === 0).length === 0)
+    winner.value = 'It is a tie.'
 }
 
 const handleClick = (col: number) => {
@@ -61,6 +66,7 @@ const handleClick = (col: number) => {
 
   playGround.value[filled.value[col]][col] = turn.value
   checkGameEnded()
+  checkGameTie()
   
   turn.value = turn.value === 1 ? 2 : 1;
   filled.value[col] -= 1
@@ -71,7 +77,7 @@ const handleClick = (col: number) => {
 </script>
 
 <template>
-  <div>
+  <div class="flex items-center mt-24">
     <div class="flex">
       <template v-for="i in 7" :key="i">
         <div
@@ -92,7 +98,9 @@ const handleClick = (col: number) => {
         </div>
       </template>
     </div>
-    <div>{{ winner }}</div>
+    <div class="w-96 text-4xl ms-24">
+      {{ winner }}
+    </div>
   </div>
 </template>
 
